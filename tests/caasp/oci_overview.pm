@@ -32,20 +32,15 @@ sub run {
     mouse_hide;
 
     # Check release notes
-    if (is_caasp '=4.0') {
-        record_soft_failure 'bsc#1099477 - Release notes button is missing';
+    if (check_var('VIDEOMODE', 'text')) {
+        send_key 'alt-e';
+        assert_screen 'release-notes-' . get_var('VERSION');
+        send_key 'ret';
     }
     else {
-        if (check_var('VIDEOMODE', 'text')) {
-            send_key 'alt-e';
-            assert_screen 'release-notes-' . get_var('VERSION');
-            send_key 'ret';
-        }
-        else {
-            assert_and_click 'release-notes-open';
-            assert_screen 'release-notes-' . get_var('VERSION');
-            assert_and_click 'release-notes-close';
-        }
+        assert_and_click 'release-notes-open';
+        assert_screen 'release-notes-' . get_var('VERSION');
+        assert_and_click 'release-notes-close';
     }
 
     # Check DUD - poo#17072

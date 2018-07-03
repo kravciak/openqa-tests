@@ -44,12 +44,6 @@ my %keys = (
 sub send_alt {
     my $key = shift;
     my $txt = check_var('VIDEOMODE', 'text');
-
-    if (is_caasp '4.0+') {
-        $keys{keyboard} = ['y', 'e'];
-        $keys{password} = ['a', 'a'];
-        $keys{ntpserver} = ['r'];
-    }
     send_key "alt-$keys{$key}[$txt]";
 }
 
