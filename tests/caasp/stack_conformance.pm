@@ -78,11 +78,10 @@ sub run_cli {
 sub run {
     switch_to 'xterm';
 
-#    my kube_ver = script_output 'kubectl version --short=true | grep Server | cut -d: -f2 | tr -d "v "';
-#    if (check_version('1.10.0+', qr/^(?:\d+\.?){3}$/, $kube_ver) {
-    if (is_caasp '4.0+') {
-        record_info 'Skipped';
-        # run_cli;
+    # my kube_ver = script_output 'kubectl version --short=true | grep Server | cut -d: -f2 | tr -d "v "';
+    # if (check_version('1.10.0+', qr/^(?:\d+\.?){3}$/, $kube_ver) {
+    if (is_caasp '3.0+') {
+        run_cli;
     } else {
         run_yaml;
     }
