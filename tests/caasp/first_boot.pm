@@ -44,6 +44,9 @@ sub run {
             process_reboot 1;
         }
     }
+
+    # Preserve logs from previous boots
+    script_run 'mkdir /var/log/journal';
 }
 
 sub test_flags {
