@@ -264,18 +264,25 @@ sub save_strace_gdb_output {
 
 sub post_fail_hook {
     my $self = shift;
-    $self->SUPER::post_fail_hook;
-    get_to_console;
-    $self->detect_bsc_1063638;
-    $self->get_ip_address;
-    $self->remount_tmp_if_ro;
-    # Avoid collectin logs twice when investigate_yast2_failure() is inteded to hard-fail
-    $self->save_upload_y2logs unless get_var('ASSERT_Y2LOGS');
-    return if is_caasp;
-    $self->save_system_logs;
+    if (check_var 'REMOTE_CONTROLLER', 'vnc') {
+        send_key 'ctrl-alt-shift-x';
+        sleep 10;
+        assert_script_run 'save_y2logs';
+        # upload_logs 'logfile';
+    } else {
+        $self->SUPER::post_fail_hook;
+        get_to_console;
+        $self->detect_bsc_1063638;
+        $self->get_ip_address;
+        $self->remount_tmp_if_ro;
+        # Avoid collectin logs twice when investigate_yast2_failure() is inteded to hard-fail
+        $self->save_upload_y2logs unless get_var('ASSERT_Y2LOGS');
+        return if is_caasp;
+        $self->save_system_logs;
 
-    # Collect yast2 installer  strace and gbd debug output if is still running
-    $self->save_strace_gdb_output;
+        # Collect yast2 installer  strace and gbd debug output if is still running
+        $self->save_strace_gdb_output;
+    }
 }
 
 1;
