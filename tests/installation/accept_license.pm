@@ -26,6 +26,7 @@ use version_utils 'is_sle';
 
 sub run {
     my ($self) = @_;
+    assert_screen('does-not-exist');
     assert_screen('license-agreement');
     # optional checks for the extended installation
     if (get_var('INSTALLER_EXTENDED_TEST')) {
